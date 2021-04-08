@@ -1,0 +1,44 @@
+<h4 class="dispaly-4">Items de la vente</h4>
+<hr>
+<form #form="ngForm" autocomplete="off" (submit)="onSubmit(form)">
+    <input type="hidden"  name="ventesId" #ventesId="ngModel" [(ngModel)]="formData.ventesId">
+    <input type="hidden"  name="productsId" #productsId="ngModel" [(ngModel)]="formData.productsId">
+    <input type="hidden"  name="productsLibelle" #productsLibelle="ngModel" [(ngModel)]="formData.productsLibelle">
+  <div class="form-group">
+    <label>Produit</label>
+    <select name="productsId" #productsId="ngModel" [(ngModel)]="formData.productsId" class="form-control" (change)="updatePrice($event.target)"
+    [class.is-invalid]="!isValid && formData.productsId==0">
+      <option value="0">-Select-</option>
+      <option *ngFor="let item of itemList" value="{{item.id}}">{{item.libelle}}</option>
+    </select>
+  </div>
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <label>Prix de Vente</label>
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <div class="input-group-text">FCFA</div>
+        </div>
+        <input name="prixUnitaire" #prixUnitaire="ngModel" [(ngModel)]="formData.prixUnitaire" class="form-control" readonly>
+      </div>
+    </div>
+    <div class="form-group col-md-6">
+      <label>Quantité</label>
+      <input name="quantite" #quantite="ngModel" [(ngModel)]="formData.quantite" class="form-control"
+      (keyup)="updateTotal()" [class.is-invalid]="!isValid && formData.quantite==0">
+    </div>
+  </div>
+  <div class="form-group">
+    <label>Total</label>
+    <div class="input-group">
+      <div class="input-group-prepend">
+        <div class="input-group-text">CFA</div>
+      </div>
+      <input name="prixTotal" #prixTotal="ngModel" [(ngModel)]="formData.prixTotal" class="form-control" readonly>
+    </div>
+  </div>
+  <div class="form-group">
+    <button type="submit" class="btn btn-dark"><i class="fa fa-database"></i> Submit</button>
+    <button type="button" class="btn btn-outline-dark ml-1"><i class="fa fa-close"></i> Close</button>
+  </div>
+</form>

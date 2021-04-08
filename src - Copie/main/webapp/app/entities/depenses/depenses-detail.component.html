@@ -1,0 +1,48 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="depenses">
+            <h2><span>Depenses</span> {{ depenses.id }}</h2>
+
+            <hr>
+
+            <jhi-alert-error></jhi-alert-error>
+
+            <dl class="row-md jh-entity-details">
+                <dt><span>Montant</span></dt>
+                <dd>
+                    <span>{{ depenses.montant }}</span>
+                </dd>
+                <dt><span>Comments</span></dt>
+                <dd>
+                    <span>{{ depenses.comments }}</span>
+                </dd>
+                <dt><span>Date</span></dt>
+                <dd>
+                    <span>{{ depenses.date }}</span>
+                </dd>
+                <dt><span>Annule</span></dt>
+                <dd>
+                    <span>{{ depenses.annule }}</span>
+                </dd>
+                <dt><span>Type Depense</span></dt>
+                <dd>
+                    <div *ngIf="depenses.typeDepenseId">
+                        <a [routerLink]="['/type-depense', depenses.typeDepenseId, 'view']">{{ depenses.typeDepenseLibelle }}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/depenses', depenses.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,88 @@
+DEFAULT_MIN_LENGTH = 4
+DEFAULT_MAX_LENGTH = 50
+
+entity Client {
+  fullName String required maxlength(DEFAULT_MAX_LENGTH),
+  address String maxlength(DEFAULT_MAX_LENGTH),
+  phone String maxlength(20)
+}
+entity Fournisseur {
+  fullName String required maxlength(DEFAULT_MAX_LENGTH),
+  address String maxlength(DEFAULT_MAX_LENGTH),
+  phone String maxlength(20)
+}
+entity Products{
+  libelle String required unique maxlength(100),
+  prixVente BigDecimal required,
+  isDisabled Boolean required,
+  quantite BigDecimal,
+  comments String
+}
+entity TypeProduit{
+    libelle String required  unique maxlength(100),
+    isDisabled Boolean required
+}
+entity EntreeStock{
+	montant BigDecimal required,
+    annule Boolean required,
+    date LocalDate required
+}
+entity Ventes{
+    montantInitial BigDecimal required,
+    remise BigDecimal required,
+    montantFinal BigDecimal required,
+    date LocalDate required,
+    annule Boolean required
+}
+entity Depenses{
+    montant BigDecimal required,
+    comments String,
+    date LocalDate required,
+    annule Boolean required
+}
+entity TypeDepense{
+    libelle String unique maxlength(DEFAULT_MAX_LENGTH),
+    isDisabled Boolean required
+}
+entity LignesVentes{
+    prixUnitaire BigDecimal required,
+    quantite BigDecimal required,
+    prixTotal BigDecimal required
+}
+entity LigneEntreeStock{
+	prixUnitaire BigDecimal required,
+    quantite BigDecimal required,
+    prixTotal BigDecimal required
+}
+entity Reservation{
+    revervePour LocalDate required,
+    date LocalDate required,
+    annule Boolean required
+}
+entity LignesReservation{
+	quantite BigDecimal required
+}
+/**
+ * One to many relationship.
+ */
+relationship OneToMany {
+    TypeProduit{products} to Products{typeProduit(libelle)},
+    TypeDepense{depenses} to Depenses{typeDepense(libelle)},
+    Client{ventes} to Ventes{client(fullName)},
+    Client{reservation} to Reservation{client(fullName)},
+    Fournisseur{stock} to EntreeStock{fournisseur(fullName)},
+    Products{ligneStock} to LigneEntreeStock{products(libelle)},
+    Products{ligneVentes} to LignesVentes{products(libelle)},
+    Products{ligneReservation} to LignesReservation{products(libelle)},
+    Ventes{lignesVentes} to LignesVentes{ventes},
+    EntreeStock{ligneEntreeStock} to LigneEntreeStock{entreestock},
+}
+
+filter *
+
+paginate * with pagination
+
+dto * with mapstruct
+
+service * with serviceClass
+

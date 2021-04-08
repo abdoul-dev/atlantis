@@ -1,0 +1,44 @@
+{
+  "name": "Depenses",
+  "fields": [
+    {
+      "fieldName": "montant",
+      "fieldType": "BigDecimal",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "comments",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "date",
+      "fieldType": "LocalDate",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "annule",
+      "fieldType": "Boolean",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "typeDepense",
+      "otherEntityRelationshipName": "depenses",
+      "relationshipName": "typeDepense",
+      "otherEntityField": "libelle"
+    }
+  ],
+  "changelogDate": "20201231154630",
+  "entityTableName": "depenses",
+  "dto": "mapstruct",
+  "pagination": "pagination",
+  "service": "serviceClass",
+  "jpaMetamodelFiltering": true,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "clientRootFolder": "",
+  "applications": "*"
+}

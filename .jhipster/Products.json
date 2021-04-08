@@ -1,0 +1,67 @@
+{
+  "name": "Products",
+  "fields": [
+    {
+      "fieldName": "libelle",
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "unique", "maxlength"],
+      "fieldValidateRulesMaxlength": "100"
+    },
+    {
+      "fieldName": "prixVente",
+      "fieldType": "BigDecimal",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "isDisabled",
+      "fieldType": "Boolean",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "quantite",
+      "fieldType": "BigDecimal"
+    },
+    {
+      "fieldName": "comments",
+      "fieldType": "String"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "ligneEntreeStock",
+      "otherEntityRelationshipName": "products",
+      "relationshipName": "ligneStock"
+    },
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "lignesVentes",
+      "otherEntityRelationshipName": "products",
+      "relationshipName": "ligneVentes"
+    },
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "lignesReservation",
+      "otherEntityRelationshipName": "products",
+      "relationshipName": "ligneReservation"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "typeProduit",
+      "otherEntityRelationshipName": "products",
+      "relationshipName": "typeProduit",
+      "otherEntityField": "libelle"
+    }
+  ],
+  "changelogDate": "20201231154230",
+  "entityTableName": "products",
+  "dto": "mapstruct",
+  "pagination": "pagination",
+  "service": "serviceClass",
+  "jpaMetamodelFiltering": true,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "clientRootFolder": "",
+  "applications": "*"
+}

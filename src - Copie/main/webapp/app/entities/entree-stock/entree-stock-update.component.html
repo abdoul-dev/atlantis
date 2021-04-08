@@ -1,0 +1,108 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+            <h2 id="jhi-entree-stock-heading">Create or edit a Entree Stock</h2>
+            <div class="row">
+                <jhi-alert-error></jhi-alert-error>
+
+                <!-- <div class="form-group" [hidden]="!editForm.get('id')!.value">
+                    <label for="id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id" formControlName="id" readonly />
+                </div> -->
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-control-label" for="field_date">Date</label>
+                        <div class="input-group">
+                            <input id="field_date" type="text" class="form-control" name="date" ngbDatepicker #dateDp="ngbDatepicker" formControlName="date" date="ngModel" [(ngModel)]="entreeStockService.formData.date!"/>
+                            <span class="input-group-append">
+                                <button type="button" class="btn btn-secondary" (click)="dateDp.toggle()"><fa-icon icon="calendar-alt"></fa-icon></button>
+                            </span>
+                        </div>
+                        <div *ngIf="editForm.get('date')!.invalid && (editForm.get('date')!.dirty || editForm.get('date')!.touched)">
+                            <small class="form-text text-danger"
+                                   *ngIf="editForm.get('date')?.errors?.required">
+                            This field is required.
+                            </small>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-control-label" for="field_fournisseur">Fournisseur</label>
+                        <select class="form-control" id="field_fournisseur" name="fournisseur" formControlName="fournisseurId">
+                            <option [ngValue]="null"></option>
+                            <option [ngValue]="fournisseurOption.id" *ngFor="let fournisseurOption of fournisseurs; trackBy: trackById">{{ fournisseurOption.fullName }}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-control-label" for="field_montant">Montant</label>
+                        <input type="number" class="form-control" name="montant" id="field_montant"
+                               formControlName="montant" montant="ngModel" [(ngModel)]="entreeStockService.formData.montant"/>
+                        <div *ngIf="editForm.get('montant')!.invalid && (editForm.get('montant')!.dirty || editForm.get('montant')!.touched)">
+                            <small class="form-text text-danger"
+                                   *ngIf="editForm.get('montant')?.errors?.required">
+                            This field is required.
+                            </small>
+                            <small class="form-text text-danger"
+                                [hidden]="!editForm.get('montant')?.errors?.number">
+                                This field should be a number.
+                            </small>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-control-label" for="field_annule">Annule</label>
+                        <input type="checkbox" class="form-control" name="annule" id="field_annule"
+                               formControlName="annule"/>
+                        <div *ngIf="editForm.get('annule')!.invalid && (editForm.get('annule')!.dirty || editForm.get('annule')!.touched)">
+                            <small class="form-text text-danger"
+                                   *ngIf="editForm.get('annule')?.errors?.required">
+                            This field is required.
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <table class="table table-borderless">
+                <thead class="thead-light">
+                  <th>Produit</th>
+                  <th>Prix U</th>
+                  <th>Quantité</th>
+                  <th>Prix Total</th>
+                  <th>
+                    <a class="btn btn-sm btn-success text-white" (click)="AddOrEditOrderItem(null,null)"><i class="fa fa-plus"></i> Add Item</a>
+                  </th>
+                </thead>
+                <tbody>
+                    <tr *ngIf="entreeStockService.orderItems.length==0" [class.text-danger]="entreeStockService.orderItems.length==0">
+                      <td class="font-italic text-center" colspan="5">
+                        No food item selected for this order.
+                      </td>
+                    </tr>
+              
+                    <tr *ngFor="let item of entreeStockService.orderItems;let i=index;">
+                      <td>{{item.productsLibelle}}</td>
+                      <td>{{item.prixUnitaire}}</td>
+                      <td>{{item.quantite}}</td>
+                      <td>{{item.prixTotal}}</td>
+                      <td>
+                        <a class="btn btn-sm btn-info text-white" (click)="AddOrEditOrderItem(i,entreeStockService.formData.id)">Edit<i class="fa fa-pencil"></i></a>
+                        <a class="btn btn-sm btn-danger text-white ml-1" (click)="onDeleteOrderItem(item.id!,i)">Delete<i class="fa fa-trash"></i></a>
+                      </td>
+                    </tr>
+                  </tbody>
+              </table>
+
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
+                    <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
+                </button>
+
+                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

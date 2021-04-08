@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.9.xsd">
+    <!--
+        Added the constraints for entity LignesVentes.
+    -->
+    <changeSet id="20210101020128-2" author="jhipster">
+        
+        <addForeignKeyConstraint baseColumnNames="products_id"
+                                 baseTableName="lignes_ventes"
+                                 constraintName="fk_lignes_ventes_products_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="products"/>
+
+        <addForeignKeyConstraint baseColumnNames="ventes_id"
+                                 baseTableName="lignes_ventes"
+                                 constraintName="fk_lignes_ventes_ventes_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="ventes"/>
+
+    </changeSet>
+</databaseChangeLog>

@@ -1,0 +1,48 @@
+{
+  "name": "Client",
+  "fields": [
+    {
+      "fieldName": "fullName",
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "maxlength"],
+      "fieldValidateRulesMaxlength": "50"
+    },
+    {
+      "fieldName": "address",
+      "fieldType": "String",
+      "fieldValidateRules": ["maxlength"],
+      "fieldValidateRulesMaxlength": "50"
+    },
+    {
+      "fieldName": "phone",
+      "fieldType": "String",
+      "fieldValidateRules": ["maxlength"],
+      "fieldValidateRulesMaxlength": "20"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "ventes",
+      "otherEntityRelationshipName": "client",
+      "relationshipName": "ventes"
+    },
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "reservation",
+      "otherEntityRelationshipName": "client",
+      "relationshipName": "reservation"
+    }
+  ],
+  "changelogDate": "20201231154130",
+  "entityTableName": "client",
+  "dto": "mapstruct",
+  "pagination": "pagination",
+  "service": "serviceClass",
+  "jpaMetamodelFiltering": true,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "clientRootFolder": "",
+  "applications": "*"
+}

@@ -1,0 +1,56 @@
+{
+  "name": "Ventes",
+  "fields": [
+    {
+      "fieldName": "montantInitial",
+      "fieldType": "BigDecimal",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "remise",
+      "fieldType": "BigDecimal",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "montantFinal",
+      "fieldType": "BigDecimal",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "date",
+      "fieldType": "LocalDate",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "annule",
+      "fieldType": "Boolean",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "lignesVentes",
+      "otherEntityRelationshipName": "ventes",
+      "relationshipName": "lignesVentes"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "client",
+      "otherEntityRelationshipName": "ventes",
+      "relationshipName": "client",
+      "otherEntityField": "fullName"
+    }
+  ],
+  "changelogDate": "20201231154530",
+  "entityTableName": "ventes",
+  "dto": "mapstruct",
+  "pagination": "pagination",
+  "service": "serviceClass",
+  "jpaMetamodelFiltering": true,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "clientRootFolder": "",
+  "applications": "*"
+}

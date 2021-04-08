@@ -1,0 +1,12 @@
+version: '2'
+services:
+  atlantispoissonnerie-postgresql:
+    image: postgres:12.3
+    # volumes:
+    #     - ~/volumes/jhipster/AtlantisPoissonnerie/postgresql/:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=AtlantisPoissonnerie
+      - POSTGRES_PASSWORD=
+      - POSTGRES_HOST_AUTH_METHOD=trust
+    ports:
+      - 5432:5432

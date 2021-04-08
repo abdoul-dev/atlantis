@@ -1,0 +1,62 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="ventes">
+            <h2><span>Ventes</span> {{ ventes.id }}</h2>
+
+            <hr>
+
+            <jhi-alert-error></jhi-alert-error>
+
+            <table class="table table-borderless">
+                <thead class="thead-light">
+                  <th>Produit</th>
+                  <th>Prix U</th>
+                  <th>Quantité</th>
+                  <th>Prix Total</th>
+                </thead>
+                <tbody>
+                    <!-- <tr *ngIf="service.orderItems.length==0" [class.text-danger]="service.orderItems.length==0">
+                      <td class="font-italic text-center" colspan="5">
+                        No order.
+                      </td>
+                    </tr> -->
+              
+                    <tr *ngFor="let item of ventes.lignesVentes;let i=index;">
+                     <td>{{item.products!.libelle}}</td>
+                      <td>{{item.prixUnitaire}}</td>
+                      <td>{{item.quantite}}</td>
+                      <td>{{item.prixTotal}}</td>
+                    </tr>
+                </tbody><hr>
+                
+                <tfoot class="table-active">
+                    <tr>
+                        <th scope="row">Total</th>
+                        <td>{{ventes.montantInitial}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Remise</th>
+                        <td>{{ventes.remise}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Total G</th>
+                        <td>{{ventes.montantFinal}}</td>
+                    </tr>                         
+                </tfoot>
+            </table>
+
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/ventes', ventes.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

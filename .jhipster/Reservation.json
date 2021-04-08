@@ -1,0 +1,40 @@
+{
+  "name": "Reservation",
+  "fields": [
+    {
+      "fieldName": "revervePour",
+      "fieldType": "LocalDate",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "date",
+      "fieldType": "LocalDate",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "annule",
+      "fieldType": "Boolean",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "client",
+      "otherEntityRelationshipName": "reservation",
+      "relationshipName": "client",
+      "otherEntityField": "fullName"
+    }
+  ],
+  "changelogDate": "20201231154830",
+  "entityTableName": "reservation",
+  "dto": "mapstruct",
+  "pagination": "pagination",
+  "service": "serviceClass",
+  "jpaMetamodelFiltering": true,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "clientRootFolder": "",
+  "applications": "*"
+}

@@ -1,0 +1,90 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+            <h2 id="jhi-lignes-ventes-heading">Create or edit a Lignes Ventes</h2>
+
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+
+                <div class="form-group" [hidden]="!editForm.get('id')!.value">
+                    <label for="id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id" formControlName="id" readonly />
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_prixUnitaire">Prix Unitaire</label>
+                    <input type="number" class="form-control" name="prixUnitaire" id="field_prixUnitaire"
+                           formControlName="prixUnitaire"/>
+                    <div *ngIf="editForm.get('prixUnitaire')!.invalid && (editForm.get('prixUnitaire')!.dirty || editForm.get('prixUnitaire')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('prixUnitaire')?.errors?.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.get('prixUnitaire')?.errors?.number">
+                            This field should be a number.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_quantite">Quantite</label>
+                    <input type="number" class="form-control" name="quantite" id="field_quantite"
+                           formControlName="quantite"/>
+                    <div *ngIf="editForm.get('quantite')!.invalid && (editForm.get('quantite')!.dirty || editForm.get('quantite')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('quantite')?.errors?.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.get('quantite')?.errors?.number">
+                            This field should be a number.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_prixTotal">Prix Total</label>
+                    <input type="number" class="form-control" name="prixTotal" id="field_prixTotal"
+                           formControlName="prixTotal"/>
+                    <div *ngIf="editForm.get('prixTotal')!.invalid && (editForm.get('prixTotal')!.dirty || editForm.get('prixTotal')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('prixTotal')?.errors?.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.get('prixTotal')?.errors?.number">
+                            This field should be a number.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_products">Products</label>
+                    <select class="form-control" id="field_products" name="products" formControlName="productsId">
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="productsOption.id" *ngFor="let productsOption of products; trackBy: trackById">{{ productsOption.libelle }}</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_ventes">Ventes</label>
+                    <select class="form-control" id="field_ventes" name="ventes" formControlName="ventesId">
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="ventesOption.id" *ngFor="let ventesOption of ventes; trackBy: trackById">{{ ventesOption.id }}</option>
+                    </select>
+                </div>
+            </div>
+
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
+                    <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
+                </button>
+
+                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

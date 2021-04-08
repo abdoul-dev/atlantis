@@ -1,0 +1,40 @@
+{
+  "generator-jhipster": {
+    "promptValues": {
+      "packageName": "com.atlantis.bf"
+    },
+    "jhipsterVersion": "6.10.5",
+    "applicationType": "monolith",
+    "baseName": "AtlantisPoissonnerie",
+    "packageName": "com.atlantis.bf",
+    "packageFolder": "com/atlantis/bf",
+    "serverPort": "8080",
+    "authenticationType": "jwt",
+    "cacheProvider": "ehcache",
+    "enableHibernateCache": true,
+    "websocket": false,
+    "databaseType": "sql",
+    "devDatabaseType": "h2Disk",
+    "prodDatabaseType": "postgresql",
+    "searchEngine": false,
+    "messageBroker": false,
+    "serviceDiscoveryType": false,
+    "buildTool": "maven",
+    "enableSwaggerCodegen": true,
+    "jwtSecretKey": "NzI2Yzg1YzRkOGYwMWQ5MzQyYmVkYTQxY2ZhNTY5YjRkNTE3MjMxZTliNGZmYjQ3Yzk2YmY4ZWViMGI0NDc3YTUzYjEwYmYwMTQzNzhmOTg3ZmY2ZWE0MzExNmY2Yjg0NWE1MzMwZDU1ZDVkYjc3ODMzZWVmMTgxNjdkOTAwNmM=",
+    "embeddableLaunchScript": false,
+    "useSass": true,
+    "clientPackageManager": "npm",
+    "clientFramework": "angularX",
+    "clientTheme": "sketchy",
+    "clientThemeVariant": "primary",
+    "creationTimestamp": 1609362010883,
+    "testFrameworks": ["gatling"],
+    "jhiPrefix": "jhi",
+    "entitySuffix": "",
+    "dtoSuffix": "DTO",
+    "otherModules": [],
+    "enableTranslation": false,
+    "blueprints": []
+  }
+}

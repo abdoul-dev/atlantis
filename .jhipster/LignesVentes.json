@@ -1,0 +1,47 @@
+{
+  "name": "LignesVentes",
+  "fields": [
+    {
+      "fieldName": "prixUnitaire",
+      "fieldType": "BigDecimal",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "quantite",
+      "fieldType": "BigDecimal",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "prixTotal",
+      "fieldType": "BigDecimal",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "products",
+      "otherEntityRelationshipName": "ligneVentes",
+      "relationshipName": "products",
+      "otherEntityField": "libelle"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "ventes",
+      "otherEntityRelationshipName": "lignesVentes",
+      "relationshipName": "ventes",
+      "otherEntityField": "id"
+    }
+  ],
+  "changelogDate": "20210101020128",
+  "entityTableName": "lignes_ventes",
+  "dto": "mapstruct",
+  "pagination": "pagination",
+  "service": "serviceClass",
+  "jpaMetamodelFiltering": true,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "clientRootFolder": "",
+  "applications": "*"
+}

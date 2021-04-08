@@ -1,0 +1,50 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="ligneEntreeStock">
+            <h2><span>Ligne Entree Stock</span> {{ ligneEntreeStock.id }}</h2>
+
+            <hr>
+
+            <jhi-alert-error></jhi-alert-error>
+
+            <dl class="row-md jh-entity-details">
+                <dt><span>Prix Unitaire</span></dt>
+                <dd>
+                    <span>{{ ligneEntreeStock.prixUnitaire }}</span>
+                </dd>
+                <dt><span>Quantite</span></dt>
+                <dd>
+                    <span>{{ ligneEntreeStock.quantite }}</span>
+                </dd>
+                <dt><span>Prix Total</span></dt>
+                <dd>
+                    <span>{{ ligneEntreeStock.prixTotal }}</span>
+                </dd>
+                <dt><span>Products</span></dt>
+                <dd>
+                    <div *ngIf="ligneEntreeStock.productsId">
+                        <a [routerLink]="['/products', ligneEntreeStock.productsId, 'view']">{{ ligneEntreeStock.productsLibelle }}</a>
+                    </div>
+                </dd>
+                <dt><span>Entreestock</span></dt>
+                <dd>
+                    <div *ngIf="ligneEntreeStock.entreestockId">
+                        <a [routerLink]="['/entree-stock', ligneEntreeStock.entreestockId, 'view']">{{ ligneEntreeStock.entreestockId }}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/ligne-entree-stock', ligneEntreeStock.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

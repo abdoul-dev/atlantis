@@ -1,0 +1,134 @@
+<div>
+    <h2 id="page-heading">
+        <span>Ventes</span>
+        <div class="row">
+            <div class="col-sm-3">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">Vente du Jour</div>
+                    </div>
+                    <input type="text" name="ventedujour"  class="form-control" [(ngModel)]="venteduJour" readonly>
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">FCFA</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-sm-2">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">Date Début</div>
+                    </div>
+                    <input id="field_date" type="text" class="form-control" name="dateDebut" ngbDatepicker #dateDp="ngbDatepicker" [(ngModel)]="dateDebut" (ngModelChange)="onChangeDate($event)"/>
+                    <span class="input-group-append">
+                        <button type="button" class="btn btn-secondary" (click)="dateDp.toggle()"><fa-icon icon="calendar-alt"></fa-icon></button>
+                    </span>
+                </div>
+            </div>
+            <div class="col-sm-2">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">Date Fin</div>
+                    </div>
+                    <input id="field_date" type="text" class="form-control" name="dateFin" ngbDatepicker #dateDp="ngbDatepicker" [(ngModel)]="dateFin" (ngModelChange)="onChangeDate($event)"/>
+                    <span class="input-group-append">
+                        <button type="button" class="btn btn-secondary" (click)="dateDp.toggle()"><fa-icon icon="calendar-alt"></fa-icon></button>
+                    </span>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">Client</div>
+                    </div>
+                    <input type="text" name="client"  class="form-control" [(ngModel)]="client"/>
+                </div>
+            </div>
+            <div class="col-sm-1">
+                <button type="submit" class="btn btn-info" [disabled]='client==""' (click)="downloadPdf()"><i class="fa fa-database"></i> Exporter</button>
+              </div>
+        </div>
+
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-ventes" [routerLink]="['/ventes/new']">
+            <fa-icon icon="plus"></fa-icon>
+            <span>
+            Enregistrer une vente
+            </span>
+        </button>
+    </h2> 
+
+    <jhi-alert-error></jhi-alert-error>
+
+    <jhi-alert></jhi-alert>
+
+    <div class="alert alert-warning" id="no-result" *ngIf="ventes?.length === 0">
+        <span>No ventes found</span>
+    </div>
+
+    <div class="table-responsive" id="entities" *ngIf="ventes && ventes.length > 0">
+        <table class="table table-striped" aria-describedby="page-heading">
+            <thead>
+                <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
+                    <th scope="col"  jhiSortBy="id"><span>ID</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="montantInitial"><span>Montant Initial</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="remise"><span>Remise</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="montantFinal"><span>Montant Final</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="date"><span>Date</span> <fa-icon icon="sort"></fa-icon></th>
+                    <!-- <th scope="col"  jhiSortBy="annule"><span>Annule</span> <fa-icon icon="sort"></fa-icon></th> -->
+                    <th scope="col"  jhiSortBy="clientFullName"><span>Client</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let ventes of ventes ;trackBy: trackId">
+                    <td><a [routerLink]="['/ventes', ventes.id, 'view']">{{ ventes.id }}</a></td>
+                    <td>{{ ventes.montantInitial }}</td>
+                    <td>{{ ventes.remise }}</td>
+                    <td>{{ ventes.montantFinal }}</td>
+                    <td>{{ ventes.date | date:'mediumDate' }}</td>
+                    <!-- <td>{{ ventes.annule }}</td> -->
+                    <td>
+                        <div *ngIf="ventes.clientId">
+                            <a [routerLink]="['/client', ventes.clientId , 'view']" >{{ ventes.clientFullName }}</a>
+                        </div>
+                    </td>
+                    <td class="text-right">
+                        <div class="btn-group">
+                            <button type="submit"
+                                    [routerLink]="['/ventes', ventes.id, 'view']"
+                                    class="btn btn-info btn-sm">
+                                <fa-icon icon="eye"></fa-icon>
+                                <span class="d-none d-md-inline">View</span>
+                            </button>
+
+                            <button type="submit"
+                                    [routerLink]="['/ventes', ventes.id, 'edit']"
+                                    class="btn btn-primary btn-sm">
+                                <fa-icon icon="pencil-alt"></fa-icon>
+                                <span class="d-none d-md-inline">Print</span>
+                            </button>
+
+                            <button type="submit" (click)="annuleVente(ventes, true)"
+                                    class="btn btn-danger btn-sm">
+                                <fa-icon icon="times"></fa-icon>
+                                <span class="d-none d-md-inline">Annuler</span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div *ngIf="ventes && ventes.length > 0">
+        <div class="row justify-content-center">
+            <jhi-item-count [page]="page" [total]="totalItems" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+        </div>
+
+        <div class="row justify-content-center">
+            <ngb-pagination [collectionSize]="totalItems" [(page)]="ngbPaginationPage" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage($event)"></ngb-pagination>
+        </div>
+    </div>
+</div>

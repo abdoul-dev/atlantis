@@ -1,0 +1,46 @@
+{
+  "name": "EntreeStock",
+  "fields": [
+    {
+      "fieldName": "montant",
+      "fieldType": "BigDecimal",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "annule",
+      "fieldType": "Boolean",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "date",
+      "fieldType": "LocalDate",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "ligneEntreeStock",
+      "otherEntityRelationshipName": "entreestock",
+      "relationshipName": "ligneEntreeStock"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "fournisseur",
+      "otherEntityRelationshipName": "stock",
+      "relationshipName": "fournisseur",
+      "otherEntityField": "fullName"
+    }
+  ],
+  "changelogDate": "20201231154430",
+  "entityTableName": "entree_stock",
+  "dto": "mapstruct",
+  "pagination": "pagination",
+  "service": "serviceClass",
+  "jpaMetamodelFiltering": true,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "clientRootFolder": "",
+  "applications": "*"
+}

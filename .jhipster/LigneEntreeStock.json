@@ -1,0 +1,47 @@
+{
+  "name": "LigneEntreeStock",
+  "fields": [
+    {
+      "fieldName": "prixUnitaire",
+      "fieldType": "BigDecimal",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "quantite",
+      "fieldType": "BigDecimal",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "prixTotal",
+      "fieldType": "BigDecimal",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "products",
+      "otherEntityRelationshipName": "ligneStock",
+      "relationshipName": "products",
+      "otherEntityField": "libelle"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "entreeStock",
+      "otherEntityRelationshipName": "ligneEntreeStock",
+      "relationshipName": "entreestock",
+      "otherEntityField": "id"
+    }
+  ],
+  "changelogDate": "20210101020228",
+  "entityTableName": "ligne_entree_stock",
+  "dto": "mapstruct",
+  "pagination": "pagination",
+  "service": "serviceClass",
+  "jpaMetamodelFiltering": true,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "clientRootFolder": "",
+  "applications": "*"
+}

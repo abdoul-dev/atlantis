@@ -1,0 +1,30 @@
+{
+  "name": "LignesReservation",
+  "fields": [
+    {
+      "fieldName": "quantite",
+      "fieldType": "BigDecimal",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "products",
+      "otherEntityRelationshipName": "ligneReservation",
+      "relationshipName": "products",
+      "otherEntityField": "libelle"
+    }
+  ],
+  "changelogDate": "20210101020428",
+  "entityTableName": "lignes_reservation",
+  "dto": "mapstruct",
+  "pagination": "pagination",
+  "service": "serviceClass",
+  "jpaMetamodelFiltering": true,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "clientRootFolder": "",
+  "applications": "*"
+}
