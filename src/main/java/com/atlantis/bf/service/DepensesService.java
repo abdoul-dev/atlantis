@@ -3,6 +3,7 @@ package com.atlantis.bf.service;
 import com.atlantis.bf.domain.Depenses;
 import com.atlantis.bf.repository.DepensesRepository;
 import com.atlantis.bf.service.dto.DepensesDTO;
+import com.atlantis.bf.reporting.depenses;
 import com.atlantis.bf.service.mapper.DepensesMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,7 +26,9 @@ import net.sf.jasperreports.engine.util.JRSaver;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -98,6 +101,11 @@ public class DepensesService {
         depensesRepository.deleteById(id);
     }
 
+    public List<DepensesDTO> findAllBytypeDepense(Long typedepenseId, LocalDate dateDebut, LocalDate dateFin) {
+        return depensesMapper.toDto(
+            depensesRepository.findBytypeDepenseIdAndDateBetween(typedepenseId, dateDebut, dateFin));
+    }
+
     /**
      * Creation du repertoire de stockage des fichiers de l'applications
      *
@@ -115,21 +123,31 @@ public class DepensesService {
             newDirectory.setWritable(true);
         }
     }
-    public String exportToPDF(LocalDate dateDebut, LocalDate dateFin, String typedepense) throws Exception{
+    public String exportToPDF(LocalDate dateDebut, LocalDate dateFin, Long typedepenseId) throws Exception{
+        List<DepensesDTO> depenses = findAllBytypeDepense(typedepenseId, dateDebut, dateFin);
+        List<depenses> depensesforReport = new ArrayList<>();
+        for (DepensesDTO depensesDTO : depenses) {
+            depenses D = new depenses();
+            D.setComments(depensesDTO.getComments());
+            D.setDate(depensesDTO.getDate());
+            D.setMontant(depensesDTO.getMontant());
+            D.setTypeDepenseLibelle(depensesDTO.getTypeDepenseLibelle());
+            depensesforReport.add(D);
+        }
         getDirectory("reports");
         File file = ResourceUtils.getFile("classpath:EtatDepense.jrxml");
         JasperReport jasperReport;
         jasperReport = JasperCompileManager.compileReport(file.getAbsolutePath());
         JRSaver.saveObject(jasperReport, "EtatDepense.jasper");
-        JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(depensesRepository.findAll());
-        System.out.println(dataSource);
+        JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(depensesforReport);
+        System.out.println(depensesforReport);
         Map<String, Object>  params =new HashMap<>();
         params.put("dateDebut", dateDebut);
         params.put("dateFin", dateFin);
         JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, params, dataSource);
         FileOutputStream output = new FileOutputStream("reports/"+"Etat des depenses"+".pdf"); 
         JasperExportManager.exportReportToPdfStream(jasperPrint, output); 
-            output.close();
+        output.close();
         return "reports/"+"Etat des depenses"+".pdf";   
     }
 }

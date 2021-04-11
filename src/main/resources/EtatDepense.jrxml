@@ -119,7 +119,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[" ETAT DES DEPENSES DU "+$P{dateDebut}+ " AU "+ $P{dateFin}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[" ETAT DES DEPENSES DU "+ $P{dateDebut} + " AU "+ $P{dateFin}]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>
@@ -232,10 +232,6 @@
 				</box>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[" "+$F{montant}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="-10" y="0" width="30" height="20" uuid="db950006-4e96-4805-9af0-0dd4f478d89b"/>
-				<textFieldExpression><![CDATA["Text Field"]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

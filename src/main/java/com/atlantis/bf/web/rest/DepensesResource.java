@@ -149,9 +149,9 @@ public class DepensesResource {
     }
 
     @GetMapping("/depenses/exportPDF")
-    public void exportVentes(LocalDate dateDebut, LocalDate dateFin, String typedepense, HttpServletResponse response) throws Exception {
+    public void exportDepenses(Long typedepenseId, LocalDate dateDebut, LocalDate dateFin, HttpServletResponse response) throws Exception {
       log.debug("obtenir la vente du jour");
-      String filename = depensesService.exportToPDF(dateDebut, dateFin, typedepense);
+      String filename = depensesService.exportToPDF(dateDebut, dateFin, typedepenseId);
       FileInputStream stream = new FileInputStream(filename);
       response.setContentType(org.springframework.http.MediaType.APPLICATION_PDF_VALUE);
       response.setHeader("Content-disposition", "attachment;filename=" + filename);
