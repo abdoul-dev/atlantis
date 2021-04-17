@@ -49,7 +49,7 @@
                     <div class="form-group">
                         <label class="form-control-label" for="field_montantInitial">Montant Initial</label>
                         <input type="number" class="form-control" name="montantInitial" id="field_montantInitial" montantInitial="ngModel" [(ngModel)]="service.formData.montantInitial"
-                               formControlName="montantInitial"/>
+                               formControlName="montantInitial" readonly/>
                         <div *ngIf="editForm.get('montantInitial')!.invalid && (editForm.get('montantInitial')!.dirty || editForm.get('montantInitial')!.touched)">
                             <small class="form-text text-danger"
                                    *ngIf="editForm.get('montantInitial')?.errors?.required">
@@ -81,7 +81,7 @@
                     <div class="form-group">
                         <label class="form-control-label" for="field_montantFinal">Montant Final</label>
                         <input type="number" class="form-control" name="montantFinal" id="field_montantFinal" montantFinal="ngModel" [(ngModel)]="service.formData.montantFinal"
-                               formControlName="montantFinal"/> 
+                               formControlName="montantFinal" readonly/> 
                         <div *ngIf="editForm.get('montantFinal')!.invalid && (editForm.get('montantFinal')!.dirty || editForm.get('montantFinal')!.touched)">
                             <small class="form-text text-danger"
                                    *ngIf="editForm.get('montantFinal')?.errors?.required">
