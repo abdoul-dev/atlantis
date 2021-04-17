@@ -38,7 +38,7 @@
                     <div class="form-group">
                         <label class="form-control-label" for="field_montant">Montant</label>
                         <input type="number" class="form-control" name="montant" id="field_montant"
-                               formControlName="montant" montant="ngModel" [(ngModel)]="entreeStockService.formData.montant" readonly/>
+                               formControlName="montant" montant="ngModel" [(ngModel)]="entreeStockService.formData.montant" readonly>
                         <div *ngIf="editForm.get('montant')!.invalid && (editForm.get('montant')!.dirty || editForm.get('montant')!.touched)">
                             <small class="form-text text-danger"
                                    *ngIf="editForm.get('montant')?.errors?.required">
