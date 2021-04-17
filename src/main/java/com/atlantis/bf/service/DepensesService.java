@@ -3,17 +3,19 @@ package com.atlantis.bf.service;
 import com.atlantis.bf.domain.Depenses;
 import com.atlantis.bf.repository.DepensesRepository;
 import com.atlantis.bf.service.dto.DepensesDTO;
-import com.atlantis.bf.reporting.depenses;
+import com.atlantis.bf.reporting.depensesDTO;
 import com.atlantis.bf.service.mapper.DepensesMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ResourceUtils;
 
+import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperExportManager;
@@ -27,6 +29,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -77,7 +80,6 @@ public class DepensesService {
             .map(depensesMapper::toDto);
     }
 
-
     /**
      * Get one depenses by id.
      *
@@ -101,9 +103,13 @@ public class DepensesService {
         depensesRepository.deleteById(id);
     }
 
-    public List<DepensesDTO> findAllBytypeDepense(Long typedepenseId, LocalDate dateDebut, LocalDate dateFin) {
+    public List<DepensesDTO> findAllBytypeDepense(LocalDate dateDebut, LocalDate dateFin) {
         return depensesMapper.toDto(
-            depensesRepository.findBytypeDepenseIdAndDateBetween(typedepenseId, dateDebut, dateFin));
+            depensesRepository.findByDateBetween(dateDebut, dateFin));
+    }
+    public List<DepensesDTO> findAllBytypeDepenseAndDate(Long typeDepenseId, LocalDate dateDebut, LocalDate dateFin) {
+        return depensesMapper.toDto(
+            depensesRepository.findBytypeDepenseIdAndDateBetween(typeDepenseId,dateDebut, dateFin));
     }
 
     /**
@@ -123,31 +129,76 @@ public class DepensesService {
             newDirectory.setWritable(true);
         }
     }
-    public String exportToPDF(LocalDate dateDebut, LocalDate dateFin, Long typedepenseId) throws Exception{
-        List<DepensesDTO> depenses = findAllBytypeDepense(typedepenseId, dateDebut, dateFin);
-        List<depenses> depensesforReport = new ArrayList<>();
+    // public String exportToPDF(LocalDate dateDebut, LocalDate dateFin, Long typedepenseId) throws Exception{
+    //     List<DepensesDTO> depenses = findAllBytypeDepense(dateDebut, dateFin);
+    //     List<depenses> depensesforReport = new ArrayList<>();
+    //     for (DepensesDTO depensesDTO : depenses) {
+    //         depenses D = new depenses();
+    //         D.setComments(depensesDTO.getComments());
+    //         D.setDate(depensesDTO.getDate());
+    //         D.setMontant(depensesDTO.getMontant());
+    //         D.setTypeDepenseLibelle(depensesDTO.getTypeDepenseLibelle());
+    //         depensesforReport.add(D);
+    //     }
+    //     getDirectory("reports");
+    //     File file = ResourceUtils.getFile("classpath:EtatDepense.jrxml");
+    //     JasperReport jasperReport;
+    //     jasperReport = JasperCompileManager.compileReport(file.getAbsolutePath());
+    //     JRSaver.saveObject(jasperReport, "EtatDepense.jasper");
+    //     JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(depensesRepository.findAll());
+    //     System.out.println(depensesforReport);
+    //     Map<String, Object>  params =new HashMap<>();
+    //     params.put("dateDebut", dateDebut);
+    //     params.put("dateFin", dateFin);
+    //     JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, params, dataSource);
+    //     FileOutputStream output = new FileOutputStream("reports/"+"Etat des depenses"+".pdf"); 
+    //     JasperExportManager.exportReportToPdfStream(jasperPrint, output); 
+    //     output.close();
+    //     return "reports/"+"Etat des depenses"+".pdf";   
+    // }
+
+    public ResponseEntity<byte[]> exportAllDepensesByType(LocalDate dateDebut, LocalDate dateFin, Long typedepenseId) throws Exception{
+        List<DepensesDTO> depenses = new ArrayList<>();
+        depenses = findAllBytypeDepenseAndDate(typedepenseId, dateDebut, dateFin).stream().filter(p->p.isAnnule().equals(false)).collect(Collectors.toList());
+        List<depensesDTO> depensesforReport = new ArrayList<>();
         for (DepensesDTO depensesDTO : depenses) {
-            depenses D = new depenses();
-            D.setComments(depensesDTO.getComments());
-            D.setDate(depensesDTO.getDate());
-            D.setMontant(depensesDTO.getMontant());
-            D.setTypeDepenseLibelle(depensesDTO.getTypeDepenseLibelle());
-            depensesforReport.add(D);
+            depensesDTO D = new depensesDTO();
+             D.setComments(depensesDTO.getComments());
+             D.setDate(depensesDTO.getDate());
+             D.setMontant(depensesDTO.getMontant());
+             D.setTypeDepenseLibelle(depensesDTO.getTypeDepenseLibelle());
+             depensesforReport.add(D);
         }
-        getDirectory("reports");
         File file = ResourceUtils.getFile("classpath:EtatDepense.jrxml");
         JasperReport jasperReport;
         jasperReport = JasperCompileManager.compileReport(file.getAbsolutePath());
-        JRSaver.saveObject(jasperReport, "EtatDepense.jasper");
-        JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(depensesforReport);
-        System.out.println(depensesforReport);
+        JRDataSource dataSource = new JRBeanCollectionDataSource(depensesforReport);
         Map<String, Object>  params =new HashMap<>();
-        params.put("dateDebut", dateDebut);
-        params.put("dateFin", dateFin);
-        JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, params, dataSource);
-        FileOutputStream output = new FileOutputStream("reports/"+"Etat des depenses"+".pdf"); 
-        JasperExportManager.exportReportToPdfStream(jasperPrint, output); 
-        output.close();
-        return "reports/"+"Etat des depenses"+".pdf";   
+        params.put("dateDebut","DEPENSES DU "+dateDebut +" AU "+ dateFin);
+        JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, params, dataSource);    
+        return ResponseEntity.ok( JasperExportManager.exportReportToPdf(jasperPrint));
     }
+
+    public ResponseEntity<byte[]> exportAllDepenses(LocalDate dateDebut, LocalDate dateFin) throws Exception{
+        List<DepensesDTO> depenses = new ArrayList<>();
+        depenses = findAllBytypeDepense(dateDebut, dateFin).stream().filter(p->p.isAnnule().equals(false)).collect(Collectors.toList());
+        List<depensesDTO> depensesforReport = new ArrayList<>();
+        for (DepensesDTO depensesDTO : depenses) {
+            depensesDTO D = new depensesDTO();
+             D.setComments(depensesDTO.getComments());
+             D.setDate(depensesDTO.getDate());
+             D.setMontant(depensesDTO.getMontant());
+             D.setTypeDepenseLibelle(depensesDTO.getTypeDepenseLibelle());
+             depensesforReport.add(D);
+        }
+        File file = ResourceUtils.getFile("classpath:EtatDepense.jrxml");
+        JasperReport jasperReport;
+        jasperReport = JasperCompileManager.compileReport(file.getAbsolutePath());
+        JRDataSource dataSource = new JRBeanCollectionDataSource(depensesforReport);
+        Map<String, Object>  params =new HashMap<>();
+        params.put("dateDebut","DEPENSES DU "+dateDebut +" AU "+ dateFin);
+        JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, params, dataSource);    
+        return ResponseEntity.ok( JasperExportManager.exportReportToPdf(jasperPrint));
+    }
+
 }

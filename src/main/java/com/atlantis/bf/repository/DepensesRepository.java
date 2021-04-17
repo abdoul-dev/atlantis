@@ -15,4 +15,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface DepensesRepository extends JpaRepository<Depenses, Long>, JpaSpecificationExecutor<Depenses> {
     List<Depenses> findBytypeDepenseIdAndDateBetween(Long typeDepenseId, LocalDate dateDebut, LocalDate dateFin);
+    List<Depenses> findByDateBetween(LocalDate dateDebut, LocalDate dateFin);
+
 }

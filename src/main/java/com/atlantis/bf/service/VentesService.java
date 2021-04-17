@@ -191,8 +191,8 @@ public class VentesService {
         return "";    
     }
 
-    public ResponseEntity<byte[]> printRecu() throws Exception{
-        Ventes vente = ventesRepository.getOne((long) 8201);
+    public ResponseEntity<byte[]> imprimerRecu(Long venteId) throws Exception{
+        Ventes vente = ventesRepository.getOne(venteId);
         File file = ResourceUtils.getFile("classpath:recu.jrxml");
         JasperReport jasperReport = JasperCompileManager.compileReport(file.getAbsolutePath());
         JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(vente.getLignesVentes());

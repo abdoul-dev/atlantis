@@ -32,7 +32,7 @@
                     </div>
                     <select class="form-control"  [(ngModel)]="typedepense">
                         <option [ngValue]="null"></option>
-                        <option [ngValue]="typeDepenseOption.id" *ngFor="let typeDepenseOption of typedepenses">{{ typeDepenseOption.libelle }}</option>
+                        <option [ngValue]="typeDepenseOption" *ngFor="let typeDepenseOption of typedepenses">{{ typeDepenseOption.libelle }}</option>
                     </select>
                 </div>
             </div>
@@ -43,7 +43,7 @@
         <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-depenses" [routerLink]="['/depenses/new']">
             <fa-icon icon="plus"></fa-icon>
             <span>
-            Create a new Depenses
+            Nouvelle Dépense
             </span>
         </button>
     </h2>
@@ -64,7 +64,7 @@
                     <th scope="col"  jhiSortBy="montant"><span>Montant</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="comments"><span>Comments</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="date"><span>Date</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="annule"><span>Annule</span> <fa-icon icon="sort"></fa-icon></th>
+                    <!-- <th scope="col"  jhiSortBy="annule"><span>Annule</span> <fa-icon icon="sort"></fa-icon></th> -->
                     <th scope="col"  jhiSortBy="typeDepenseLibelle"><span>Type Depense</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"></th>
                 </tr>
@@ -75,7 +75,7 @@
                     <td>{{ depenses.montant }}</td>
                     <td>{{ depenses.comments }}</td>
                     <td>{{ depenses.date | date:'mediumDate' }}</td>
-                    <td>{{ depenses.annule }}</td>
+                    <!-- <td>{{ depenses.annule }}</td> -->
                     <td>
                         <div *ngIf="depenses.typeDepenseId">
                             <a [routerLink]="['/type-depense', depenses.typeDepenseId , 'view']" >{{ depenses.typeDepenseLibelle }}</a>
@@ -97,10 +97,10 @@
                                 <span class="d-none d-md-inline">Edit</span>
                             </button>
 
-                            <button type="submit" (click)="delete(depenses)"
+                            <button type="submit" (click)="annuleDepense(depenses, true)"
                                     class="btn btn-danger btn-sm">
                                 <fa-icon icon="times"></fa-icon>
-                                <span class="d-none d-md-inline">Delete</span>
+                                <span class="d-none d-md-inline">Annuler</span>
                             </button>
                         </div>
                     </td>

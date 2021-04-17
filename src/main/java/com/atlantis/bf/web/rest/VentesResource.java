@@ -176,8 +176,8 @@ public class VentesResource {
     }
 
     @GetMapping("/ventes/printRecu")
-    public ResponseEntity<byte[]> generatePdf() throws Exception, FileNotFoundException, SQLException, JRException {
+    public ResponseEntity<byte[]> generatePdf(@RequestParam(name = "venteId") Long venteId) throws Exception, FileNotFoundException, SQLException, JRException {
 
-      return  ventesService.printRecu();
+      return  ventesService.imprimerRecu(venteId);
     }
 }

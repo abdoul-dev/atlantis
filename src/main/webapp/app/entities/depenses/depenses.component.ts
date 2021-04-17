@@ -5,7 +5,7 @@ import { Subscription, combineLatest } from 'rxjs';
 import { JhiEventManager } from 'ng-jhipster';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
-import { IDepenses } from 'app/shared/model/depenses.model';
+import { Depenses, IDepenses } from 'app/shared/model/depenses.model';
 
 import { ITEMS_PER_PAGE } from 'app/shared/constants/pagination.constants';
 import { DepensesService } from './depenses.service';
@@ -13,6 +13,7 @@ import { DepensesDeleteDialogComponent } from './depenses-delete-dialog.componen
 import * as moment from 'moment';
 import { ITypeDepense } from 'app/shared/model/type-depense.model';
 import { TypeDepenseService } from '../type-depense/type-depense.service';
+import { DATE_FORMAT } from 'app/shared/constants/input.constants';
 
 @Component({
   selector: 'jhi-depenses',
@@ -27,10 +28,10 @@ export class DepensesComponent implements OnInit, OnDestroy {
   predicate!: string;
   ascending!: boolean;
   ngbPaginationPage = 1;
-  typedepense?: any;
   dateDebut = moment();
   dateFin = moment();
   typedepenses: ITypeDepense[] = [];
+  typedepense?: ITypeDepense;
 
 
   constructor(
@@ -47,6 +48,7 @@ export class DepensesComponent implements OnInit, OnDestroy {
 
     this.depensesService
       .query({
+        'annule.equals': false,
         page: pageToLoad - 1,
         size: this.itemsPerPage,
         sort: this.sort(),
@@ -126,10 +128,37 @@ export class DepensesComponent implements OnInit, OnDestroy {
     this.ngbPaginationPage = this.page ?? 1;
   }
 
-  downloadPdf(): void{
+  downloadPdf(): void {
 
+    if (this.dateDebut && this.dateFin) {
+        let param : any;
+        if(this.typedepense){
+          param = {
+            dateDebut: this.dateDebut.format(DATE_FORMAT),
+            dateFin: this.dateFin.format(DATE_FORMAT),
+            typeDepenseId: this.typedepense?.id,
+          };
+        }else{
+          param = {
+            dateDebut: this.dateDebut.format(DATE_FORMAT),
+            dateFin: this.dateFin.format(DATE_FORMAT),
+          };
+        }
+        // eslint-disable-next-line no-console
+        console.log(this.typedepense),
+        this.depensesService.downloadPdf(param, this.typedepense).subscribe((res: Blob) => {
+          window.open(URL.createObjectURL(new Blob([res || ''], { type: 'application/pdf; charset=utf-8' })), '_blank');
+        });
+    } else {
+      alert("");
+    }
   }
 
+  annuleDepense(depense: Depenses, isAnnule: boolean): void {
+    if(depense.annule === false){
+      this.depensesService.update({ ...depense, annule: isAnnule }).subscribe(() => this.loadPage());
+    }  
+  }
   onChangeDate(event: any): void {
     this.dateDebut = event
   } 

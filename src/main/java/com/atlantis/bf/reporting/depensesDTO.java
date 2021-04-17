@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 
-public class depenses {
+public class depensesDTO {
 
     private BigDecimal montant;
 

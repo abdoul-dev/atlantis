@@ -149,7 +149,6 @@ public class ProductsService {
         JasperExportManager.exportReportToPdfStream(jasperPrint, output); 
             output.close();
         return "reports/"+"Liste de produits"+".pdf";   
-
         
     }
 

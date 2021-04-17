@@ -8,6 +8,7 @@ import { DATE_FORMAT } from 'app/shared/constants/input.constants';
 import { SERVER_API_URL } from 'app/app.constants';
 import { createRequestOption } from 'app/shared/util/request-util';
 import { IDepenses } from 'app/shared/model/depenses.model';
+import { ITypeDepense } from 'app/shared/model/type-depense.model';
 
 type EntityResponseType = HttpResponse<IDepenses>;
 type EntityArrayResponseType = HttpResponse<IDepenses[]>;
@@ -70,5 +71,14 @@ export class DepensesService {
       });
     }
     return res;
+  }
+
+  downloadPdf(req?: any, typeDepense?: ITypeDepense): Observable<Blob> {
+    const options = createRequestOption(req);
+    if(typeDepense === undefined){
+      return this.http.get(`${this.resourceUrl}/${'exportAllDepenses/'}`, { params: options, responseType: 'blob' });
+    }else{
+      return this.http.get(`${this.resourceUrl}/${'exportDepensesByType/'}`, { params: options, responseType: 'blob' });
+    }
   }
 }

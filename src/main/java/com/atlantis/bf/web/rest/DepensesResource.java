@@ -148,14 +148,22 @@ public class DepensesResource {
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString())).build();
     }
 
-    @GetMapping("/depenses/exportPDF")
-    public void exportDepenses(Long typedepenseId, LocalDate dateDebut, LocalDate dateFin, HttpServletResponse response) throws Exception {
+    @GetMapping("/depenses/exportAllDepenses")
+    public ResponseEntity<byte[]> exportAllDepenses(
+        @RequestParam(name = "dateDebut") LocalDate dateDebut,
+        @RequestParam(name = "dateFin") LocalDate dateFin
+        ) throws Exception {
       log.debug("obtenir la vente du jour");
-      String filename = depensesService.exportToPDF(dateDebut, dateFin, typedepenseId);
-      FileInputStream stream = new FileInputStream(filename);
-      response.setContentType(org.springframework.http.MediaType.APPLICATION_PDF_VALUE);
-      response.setHeader("Content-disposition", "attachment;filename=" + filename);
-      IOUtils.copy(stream, response.getOutputStream());
-      stream.close();
+      return depensesService.exportAllDepenses(dateDebut, dateFin);
+    }
+
+    @GetMapping("/depenses/exportDepensesByType")
+    public ResponseEntity<byte[]> exportAllDepensesByType(
+        @RequestParam(name = "dateDebut") LocalDate dateDebut,
+        @RequestParam(name = "dateFin") LocalDate dateFin,
+        @RequestParam(name = "typeDepenseId") Long typeDepenseId
+        ) throws Exception {
+      log.debug("obtenir la vente du jour");
+      return depensesService.exportAllDepensesByType(dateDebut, dateFin, typeDepenseId);
     }
 }
