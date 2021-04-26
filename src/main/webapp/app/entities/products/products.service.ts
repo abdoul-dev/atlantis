@@ -36,6 +36,10 @@ export class ProductsService {
     return this.http.delete(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }
 
+  allProducts(): Observable<EntityArrayResponseType> {
+    return this.http.get<IProducts[]>(this.resourceUrl+'/all', { observe: 'response' });
+  }
+
   downloadPdf(): Observable<Blob> {
     return this.http.get(`${this.resourceUrl +'/genererPDF'}`,{ responseType: 'blob' });
   }

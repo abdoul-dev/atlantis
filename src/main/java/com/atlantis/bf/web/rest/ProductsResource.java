@@ -111,6 +111,12 @@ public class ProductsResource {
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
+    @GetMapping("/products/all")
+    public ResponseEntity<List<ProductsDTO>> getAllProducts() {
+        List<ProductsDTO> productsDTOs = productsService.findAllProducts();
+        return   ResponseEntity.ok(productsDTOs);
+    }
+
     /**
      * {@code GET  /products/count} : count all the products.
      *

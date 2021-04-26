@@ -27,7 +27,7 @@ export class OrderItemsComponent implements OnInit {
     private orderSevice: EntreeStockService) { }
 
     ngOnInit(): void {
-      this.itemService.query().subscribe((res : HttpResponse<IProducts[]>) => (this.itemList = res.body || []));
+      this.itemService.allProducts().subscribe((res : HttpResponse<IProducts[]>) => (this.itemList = res.body || []));
       if (this.data.orderItemIndex == null)
         this.formData = {
           id: 0,
