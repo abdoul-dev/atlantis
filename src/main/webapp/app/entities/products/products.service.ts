@@ -36,7 +36,7 @@ export class ProductsService {
     return this.http.delete(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }
 
-  allProducts(): Observable<EntityArrayResponseType> {
+  retriveAllProduit(): Observable<EntityArrayResponseType> {
     return this.http.get<IProducts[]>(this.resourceUrl+'/all', { observe: 'response' });
   }
 

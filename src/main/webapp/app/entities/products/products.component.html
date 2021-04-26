@@ -64,8 +64,8 @@
                     <td>{{ products.libelle }}</td>
                     <td>{{ products.prixVente }}</td>
                     <td>
-                        <button class="btn btn-danger btn-sm" (click)="setActive(products, true)" *ngIf="!products.isDisabled">Activated</button>
-                        <button class="btn btn-success btn-sm" (click)="setActive(products, false)" *ngIf="products.isDisabled">Deactivated</button>
+                        <button class="btn btn-success btn-sm" (click)="setActive(products, true)" *ngIf="!products.isDisabled">Activated</button>
+                        <button class="btn btn-danger btn-sm" (click)="setActive(products, false)" *ngIf="products.isDisabled">Deactivated</button>
                     </td>
                     <td>{{ products.quantite }}</td>
                     <td>{{ products.comments }}</td>
