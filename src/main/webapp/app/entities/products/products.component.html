@@ -3,26 +3,6 @@
         <span>LIste des Produits</span>
         <hr/>
         <div class="row">
-            <!-- <div class="col-sm-3">
-                <div class="input-group">
-                    <div class="input-group-prepend">
-                        <div class="input-group-text">Type de Produit</div>
-                    </div>
-                    <select class="form-control" [(ngModel)]="typeProduit">  
-                        <option [ngValue]="null">Tout</option>
-                        <option [ngValue]="typeProduitOption.id" *ngFor="let typeProduitOption of typeproduits; trackBy: trackById">{{ typeProduitOption.libelle }}</option>
-                    </select>
-                </div>
-            </div> -->
-            <!-- <div class="col-sm-1">
-                <div class="input-group">
-                    <select [(ngModel)]="actif" class="form-control" name="actif">
-                        <option [value]="tout">Tout</option>
-                        <option [value]="actif">Actifs</option>
-                        <option [value]="inactif">Inactifs</option>
-                    </select>
-                </div>
-            </div> -->
             <div class="col-sm-1">
                 <button type="submit" class="btn btn-info" (click)="exportList()"><i class="fa fa-database"></i> Exporter</button>
             </div>
