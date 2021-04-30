@@ -25,7 +25,10 @@
             </div> -->
             <div class="col-sm-1">
                 <button type="submit" class="btn btn-info" (click)="exportList()"><i class="fa fa-database"></i> Exporter</button>
-              </div>
+            </div>
+            <div class="col-sm-2">
+                <button type="submit" class="btn btn-info" (click)="restStock()"><i class="fa fa-database"></i> Reset Stock</button>
+            </div>
         </div>
         <hr/>
         <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-products" [routerLink]="['/products/new']">

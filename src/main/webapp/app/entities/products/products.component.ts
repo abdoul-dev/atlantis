@@ -139,4 +139,13 @@ export class ProductsComponent implements OnInit, OnDestroy {
       window.open(URL.createObjectURL(new Blob([res || ''], { type: 'application/pdf; charset=utf-8' })), '_bank');
     });
   }
+
+  restStock() : void {
+    this.productsService.retriveAllProduit().subscribe((res: HttpResponse<IProducts[]>)=>{
+        const products = res.body || [];
+        products.forEach(element => {
+          this.productsService.update({ ...element, quantite: 0 }).subscribe();
+        });
+    })
+  }
 }
