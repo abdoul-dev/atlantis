@@ -16,7 +16,7 @@ import { ProductsService } from '../products/products.service';
 import * as moment from 'moment';
 import { DATE_FORMAT } from 'app/shared/constants/input.constants';
 import { Moment } from 'moment';
-import {Table, TableModule} from 'primeng-lts/table';
+import {Table} from 'primeng-lts/table';
 
 @Component({
   selector: 'jhi-ventes',
@@ -189,45 +189,4 @@ export class VentesComponent implements OnInit, OnDestroy {
     this.handleNavigation(this.dateDebut);
   }
   
-  /* new additionnal methods */
-  onActivityChange(event: any): void {
-    const value = event.target.value;
-    if (value && value.trim().length) {
-        const activity = parseInt(value, 10);
-
-        if (!isNaN(activity)) {
-            this.table?.filter(activity, 'activity', 'gte');
-        }
-    }
-  }
-
-onDateSelect(value: any): void {
-    this.table?.filter(this.formatDate(value), 'date', 'equals')
-}
-
-formatDate(date: any): any {
-    let month = date.getMonth() + 1;
-    let day = date.getDate();
-
-    if (month < 10) {
-        month = '0' + month;
-    }
-
-    if (day < 10) {
-        day = '0' + day;
-    }
-
-
-    return date.getFullYear() + '-' + month + '-' + day;
-  }
-  
-  onGlobalSearchChange(event: any): void {
-    const value = event.target.value;
-    this.table?.filterGlobal(value, 'contains');
-  }
-
-  onFieldSearchChange(event: any, field: string): void {
-    const value = event.target.value;
-    this.table?.filter(value, field, 'contains');
-  }
 }
