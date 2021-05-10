@@ -180,4 +180,10 @@ public class VentesResource {
 
       return  ventesService.imprimerRecu(venteId);
     }
+
+    @GetMapping("/ventes/all")
+    public ResponseEntity<List<VentesDTO>> getAllProducts() {
+        List<VentesDTO> productsDTOs = ventesService.findAllProducts();
+        return   ResponseEntity.ok(productsDTOs);
+    }
 }

@@ -28,7 +28,8 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
     AtlantisPoissonnerieAppRoutingModule,
     MatDialogModule,
     ToastrModule.forRoot(),
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    
   ],
   declarations: [MainComponent, NavbarComponent, ErrorComponent, PageRibbonComponent, FooterComponent],
   bootstrap: [MainComponent],

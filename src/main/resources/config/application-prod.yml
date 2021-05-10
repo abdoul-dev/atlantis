@@ -34,10 +34,10 @@ spring:
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
     # url: jdbc:postgresql://localhost:5432/AtlantisPoissonnerie
-    url: postgres://oleketuswxsjqt:9b30cb8683cb757320ddeeebca0e0f5cbea08f0b1d5bd5e3a136de791ed46617@ec2-54-224-120-186.compute-1.amazonaws.com:5432/dc7ig92ks5lhmd
+    url: postgres://bksrrzzootjsfo:f4a489c98583b33ee0d9c59b59516dba60ef74e4da12abdb114690b72afc7bcb@ec2-184-73-198-174.compute-1.amazonaws.com:5432/d8rlv5874ds345
     # username: AtlantisPoissonnerie
-    username: oleketuswxsjqt
-    password: 9b30cb8683cb757320ddeeebca0e0f5cbea08f0b1d5bd5e3a136de791ed46617
+    username: bksrrzzootjsfo
+    password: f4a489c98583b33ee0d9c59b59516dba60ef74e4da12abdb114690b72afc7bcb
     hikari:
       poolName: Hikari
       auto-commit: false

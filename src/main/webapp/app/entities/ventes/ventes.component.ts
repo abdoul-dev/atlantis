@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { HttpHeaders, HttpResponse } from '@angular/common/http';
 import { ActivatedRoute, ParamMap, Router, Data } from '@angular/router';
 import { Subscription, combineLatest } from 'rxjs';
@@ -16,6 +16,7 @@ import { ProductsService } from '../products/products.service';
 import * as moment from 'moment';
 import { DATE_FORMAT } from 'app/shared/constants/input.constants';
 import { Moment } from 'moment';
+import {Table, TableModule} from 'primeng-lts/table';
 
 @Component({
   selector: 'jhi-ventes',
@@ -23,6 +24,7 @@ import { Moment } from 'moment';
 })
 export class VentesComponent implements OnInit, OnDestroy {
   ventes?: IVentes[];
+  allVentes?: IVentes[];
   eventSubscriber?: Subscription;
   totalItems = 0;
   itemsPerPage = ITEMS_PER_PAGE;
@@ -36,6 +38,10 @@ export class VentesComponent implements OnInit, OnDestroy {
   dateFin = moment();
   venteduJour: number | undefined;
   client?: String;
+  cols?: any[];
+  selectedCustomers: IVentes[] = [];
+  loading = true;
+  @ViewChild('dt') table?: Table;
 
 
   constructor(
@@ -46,9 +52,18 @@ export class VentesComponent implements OnInit, OnDestroy {
     protected router: Router,
     protected eventManager: JhiEventManager,
     protected modalService: NgbModal
-  ) {}
+  ) {
+    this.cols = [
+      { field: 'id', header: 'ID', type: 'string', filter: true, input: false },
+      { field: 'montantInitial', header: 'Montant Initial', type: 'string', filter: true, input: false },
+      { field: 'remise', header: 'Remise', type: 'string', filter: true, input: false },
+      { field: 'montantFinal', header: 'Montant Final', type: 'string', filter: true, input: false },
+      { field: 'date', header: 'Date ', type: 'moment', filter: true, input: false },
+      { field: 'clientFullName', header: 'Client', type: 'string', filter: true, input: false },
+    ];
+  }
 
-  loadPage(page?: number, dontNavigate?: boolean, date?: Moment): void {
+    loadPage(page?: number, dontNavigate?: boolean, date?: Moment): void {
     const pageToLoad: number = page || this.page || 1;
     // eslint-disable-next-line no-console
     console.log("Je suis dans loadPage");
@@ -67,7 +82,7 @@ export class VentesComponent implements OnInit, OnDestroy {
           () => this.onError()
         }
       );
-  }
+  } 
 
   ngOnInit(): void {
     this.handleNavigation(this.today);
@@ -75,6 +90,8 @@ export class VentesComponent implements OnInit, OnDestroy {
     this.ventesService.venteDuJour(this.today).subscribe((t =>{
       this.venteduJour = t.body!;
     }))
+    this.ventesService.findAllVentes().subscribe(r =>{ this.allVentes = r.body || []});
+    this.loading = false;
     
   }
 
@@ -170,5 +187,47 @@ export class VentesComponent implements OnInit, OnDestroy {
   onChangeDate(event: any): void {
     this.dateDebut = event
     this.handleNavigation(this.dateDebut);
-  }  
+  }
+  
+  /* new additionnal methods */
+  onActivityChange(event: any): void {
+    const value = event.target.value;
+    if (value && value.trim().length) {
+        const activity = parseInt(value, 10);
+
+        if (!isNaN(activity)) {
+            this.table?.filter(activity, 'activity', 'gte');
+        }
+    }
+  }
+
+onDateSelect(value: any): void {
+    this.table?.filter(this.formatDate(value), 'date', 'equals')
+}
+
+formatDate(date: any): any {
+    let month = date.getMonth() + 1;
+    let day = date.getDate();
+
+    if (month < 10) {
+        month = '0' + month;
+    }
+
+    if (day < 10) {
+        day = '0' + day;
+    }
+
+
+    return date.getFullYear() + '-' + month + '-' + day;
+  }
+  
+  onGlobalSearchChange(event: any): void {
+    const value = event.target.value;
+    this.table?.filterGlobal(value, 'contains');
+  }
+
+  onFieldSearchChange(event: any, field: string): void {
+    const value = event.target.value;
+    this.table?.filter(value, field, 'contains');
+  }
 }

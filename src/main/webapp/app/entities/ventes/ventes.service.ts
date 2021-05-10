@@ -85,4 +85,8 @@ export class VentesService {
     return this.http.get(`${this.resourceUrl +'/genererPDF/date'}/${date.format(DATE_FORMAT)}`,{ responseType: 'blob' });
   }
 
+  findAllVentes() : Observable<EntityArrayResponseType>{
+    return this.http.get<IVentes[]>(this.resourceUrl+'/all', { observe: 'response' });
+  }
+
 }

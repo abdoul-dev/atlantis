@@ -145,6 +145,11 @@ public class VentesService {
         return somme;
     }
 
+    // Method to get all ventes
+    public List<VentesDTO> findAllProducts(){
+        return ventesRepository.findAll().stream().map(ventesMapper::toDto).collect(Collectors.toList());
+    }
+
     /**
      * Creation du repertoire de stockage des fichiers de l'applications
      *
